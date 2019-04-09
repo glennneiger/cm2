@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from './Login';
+import ChannelList from './ChannelList';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Login />
-      </div>
+      <Router>
+        <Switch>
+          <Route exact={ true } path="/" component={ Login } />
+          <Route path="/channels" component={ ChannelList } />
+        </Switch>
+      </Router>
     );
   }
 }

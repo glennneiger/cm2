@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Button, ButtonToolbar, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 class Login extends Component {
   onSubmit = ( e: React.MouseEvent ) => {
