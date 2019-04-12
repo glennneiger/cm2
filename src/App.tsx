@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from './Login';
-import ChannelList from './ChannelList';
+import Login from './components/Login';
+import ChannelList from './components/ChannelList';
 
 class App extends Component {
   render() {
