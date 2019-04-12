@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Button, Form } from 'react-bootstrap';
 
-class Login extends Component {
+class Login extends Component<RouteComponentProps> {
   onSubmit = ( e: React.MouseEvent ) => {
     e.preventDefault();
-    console.log( "onsubmit" );
+
+    this.props.history.push( "/channels" );
   }
 
   render() {
