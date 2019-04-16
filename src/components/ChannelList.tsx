@@ -1,8 +1,48 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import './ChannelList.css';
+import { RouteComponentProps } from 'react-router-dom';
 
-class ChannelList extends Component {
+interface IChannelStatus {
+  id: Number,
+  title: String,
+  traffic: String
+}
+
+interface IState {
+  channelStatusList: Array<IChannelStatus>
+}
+
+class ChannelList extends Component<RouteComponentProps, IState> {
+  constructor( props: RouteComponentProps  ) {
+    super( props );
+
+    this.state = {
+      channelStatusList: []
+    }
+
+    this.getData();
+  }
+
+  getData = () => {
+    const TEMP_URL: string = 'https://my-json-server.typicode.com/justinaus/cm2/channels';
+
+    fetch( TEMP_URL )
+    .then( ( response ) => {
+      return response.json();
+    } ).then( ( data ) => {
+      
+
+      this.setState( {
+        channelStatusList: data
+      } );
+
+      console.log( this.state.channelStatusList );
+    } ).catch( ( error ) => {
+      console.log( error );
+    } );
+  }
+  
   render() {
     return (
       <Table hover size="sm">
