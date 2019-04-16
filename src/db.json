@@ -1,0 +1,24 @@
+{
+  "channels": [
+    {
+      "id": 1,
+      "title": "고수",
+      "traffic": "혼잡"
+    },
+    {
+      "id": 2,
+      "title": "중수",
+      "traffic": "원할"
+    },
+    {
+      "id": 3,
+      "title": "하수",
+      "traffic": "점검"
+    },
+    {
+      "id": 4,
+      "title": "뉴비",
+      "traffic": "혼잡"
+    }
+  ]
+}
