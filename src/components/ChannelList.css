@@ -1,3 +1,7 @@
 th, td {
   text-align: center
 }
+
+.table td {
+  vertical-align: middle;
+}
