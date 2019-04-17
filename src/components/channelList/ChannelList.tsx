@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { RouteComponentProps } from 'react-router-dom';
 import './ChannelList.css';
-
-interface IChannelStatus {
-  id: Number,
-  title: String,
-  traffic: String
-}
+import { IChannelStatus } from '../../interfaces/IChannelStatus';
 
 interface IState {
   channelStatusList: Array<IChannelStatus>
