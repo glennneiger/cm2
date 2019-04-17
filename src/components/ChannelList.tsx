@@ -41,6 +41,8 @@ class ChannelList extends Component<RouteComponentProps, IState> {
 
   onClickItem = ( channelStatus: IChannelStatus ) => {
     console.log( channelStatus );
+
+    this.props.history.push( '/lobby' );
   }
 
   renderChannelItem = ( channelStatus: IChannelStatus ) => {
