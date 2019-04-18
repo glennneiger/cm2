@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { IChannelStatus } from '../../interfaces/IChannelStatus';
-import ChatRoom from './ChatRoom';
+import ChatRoom from './chatRoom/ChatRoom';
 
 class Lobby extends Component<RouteComponentProps> {
   constructor( props: RouteComponentProps ) {
@@ -14,9 +14,10 @@ class Lobby extends Component<RouteComponentProps> {
 
   render() {
     return (
-      <>
+      <div>
+        Lobby
         <ChatRoom />
-      </>
+      </div>
     );
   }
 }
