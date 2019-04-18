@@ -15,7 +15,9 @@ const io = socketIO(server)
 
 // This is what the socket.io syntax is like, we will work this later
 io.on('connection', socket => {
-  console.log('User connected')
+  console.log('User connected');
+
+  io.sockets.emit( 'GUEST_CONNECTED', 'a guest connected' );
 
   // just like on the client side, we have a socket.on method that takes a callback function
   socket.on('change color', (color) => {
