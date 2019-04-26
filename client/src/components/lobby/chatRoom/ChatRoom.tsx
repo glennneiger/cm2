@@ -77,12 +77,10 @@ class ChatRoom extends Component< any, IState > {
   }
 
   addChat = ( chat: IChatMsg ) => {
-    const arr: Array<IChatMsg> = this.state.chatList;
-
-    arr.push( chat );
+    const arrOld: Array<IChatMsg> = this.state.chatList;
 
     this.setState( {
-      chatList: arr
+      chatList: arrOld.concat( chat )
     } );
   }
 
