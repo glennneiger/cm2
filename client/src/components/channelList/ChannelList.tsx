@@ -40,7 +40,7 @@ class ChannelList extends Component<RouteComponentProps, IState> {
 
   renderChannelItem = ( channelStatus: IChannelStatus ) => {
     return (
-      <tr key={ String( channelStatus.id ) }>
+      <tr key={ channelStatus.id }>
         <td>{ channelStatus.title }</td>
         <td>{ channelStatus.traffic }</td>
         <td><Button variant="primary" onClick={ () => this.onClickItem( channelStatus ) }>입장</Button></td>

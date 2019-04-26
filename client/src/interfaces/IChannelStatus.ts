@@ -1,5 +1,5 @@
 export interface IChannelStatus {
-  id: Number,
-  title: String,
-  traffic: String
+  id: number,
+  title: string,
+  traffic: string
 }
