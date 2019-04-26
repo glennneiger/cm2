@@ -17,9 +17,9 @@ const io = socketIO(server)
 io.on('connection', socket => {
   socket.broadcast.emit( 'GUEST_CONNECTED', 'a guest connected' );
 
-  socket.on( 'chat message', ( msg ) => {
-    socket.emit('my message', msg);
-    socket.broadcast.emit( 'other message', msg );
+  socket.on( 'MESSAGE_FROM_CLIENT', ( msg ) => {
+    socket.emit('MY_MESSAGE_FROM_SERVER', msg);
+    socket.broadcast.emit( 'OTHERS_MESSAGE_FROM_SERVER', msg );
   } );
 
   socket.on( 'disconnect', () => {

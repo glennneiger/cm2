@@ -2,6 +2,7 @@ import React, { Component, RefObject } from 'react';
 import * as io from 'socket.io-client';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import './ChatRoom.css'
+import ChatEvent from './ChatEvent';
 
 interface IChatMsg {
   text: string,
@@ -35,7 +36,7 @@ class ChatRoom extends Component< any, IState > {
   }
 
   addSocketEvent = () => {
-    this.socket.on( 'GUEST_CONNECTED', ( msg: string ) => {
+    this.socket.on( ChatEvent.GUEST_CONNECTED, ( msg: string ) => {
       const chat: IChatMsg = {
         text: msg,
         isMyChat: false,
@@ -45,7 +46,7 @@ class ChatRoom extends Component< any, IState > {
       this.addChat( chat );
     } );
 
-    this.socket.on( 'GUEST_DISCONNECTED', ( msg: string ) => {
+    this.socket.on( ChatEvent.GUEST_DISCONNECTED, ( msg: string ) => {
       const chat: IChatMsg = {
         text: msg,
         isMyChat: false,
@@ -55,7 +56,7 @@ class ChatRoom extends Component< any, IState > {
       this.addChat( chat );
     } );
 
-    this.socket.on( 'my message', ( msg: string ) => {
+    this.socket.on( ChatEvent.MY_MESSAGE_FROM_SERVER, ( msg: string ) => {
       const chat: IChatMsg = {
         text: msg,
         isMyChat: true,
@@ -65,7 +66,7 @@ class ChatRoom extends Component< any, IState > {
       this.addChat( chat );
     } );
 
-    this.socket.on( 'other message', ( msg: string ) => {
+    this.socket.on( ChatEvent.OTHERS_MESSAGE_FROM_SERVER, ( msg: string ) => {
       const chat: IChatMsg = {
         text: msg,
         isMyChat: false,
@@ -87,7 +88,7 @@ class ChatRoom extends Component< any, IState > {
   onClickSend = () => {
     const currentText: string = this.refForm.current.value;
 
-    this.socket.emit('chat message', currentText );
+    this.socket.emit( ChatEvent.MESSAGE_FROM_CLIENT, currentText );
 
     this.refForm.current.value = '';
   }
