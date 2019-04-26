@@ -1,62 +1,110 @@
-import React, { Component, ComponentProps } from 'react';
-// import socketIOClient from "socket.io-client";
-// import * as socketIOClient from "socket.io-client";
+import React, { Component, RefObject } from 'react';
 import * as io from 'socket.io-client';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import './ChatRoom.css'
 
 interface IChatMsg {
-  text: String,
-  isBroadcast: Boolean
+  text: string,
+  isMyChat: boolean,
+  isNotice: boolean
 }
 
 interface IState {
-  color: Number,
   chatList: Array<IChatMsg>
 }
 
 class ChatRoom extends Component< any, IState > {
-  // endpoint: String = 'localhost:4001';
-  socket = io.connect( 'localhost:4001' )
+  endpoint: string = 'localhost:4001';
 
+  socket: SocketIOClient.Socket;
+  refForm: RefObject<any>;
+  
   constructor( props: any ) {
     super( props );
 
+    this.socket = io.connect( this.endpoint );
+    this.refForm = React.createRef();
+
     this.state = {
-      color: 0xffffff,
-      chatList: [ 
-        {
-          text: 'test',
-          isBroadcast: true
-        },
-        {
-          text: 'test222',
-          isBroadcast: false
-        },
-      ]
+      chatList: []
     }
   }
 
   componentDidMount() {
-    console.log( 'did mount' );
-
-    this.socket.on('change color', (col: any) => {
-      console.log( "GOT COLOR" );
-      console.log( col );
-      document.body.style.backgroundColor = col
-    });
-
-    this.socket.on('GUEST_CONNECTED', (col: any) => {
-      console.log( "GUEST_CONNECTED" );
-    });
+    this.addSocketEvent();
   }
 
-  sendColor = ( color: any ) => {
-    this.socket.emit('change color', color )
+  addSocketEvent = () => {
+    this.socket.on( 'GUEST_CONNECTED', ( msg: string ) => {
+      const chat: IChatMsg = {
+        text: msg,
+        isMyChat: false,
+        isNotice: true
+      }
+
+      this.addChat( chat );
+    } );
+
+    this.socket.on( 'GUEST_DISCONNECTED', ( msg: string ) => {
+      const chat: IChatMsg = {
+        text: msg,
+        isMyChat: false,
+        isNotice: true
+      }
+
+      this.addChat( chat );
+    } );
+
+    this.socket.on( 'my message', ( msg: string ) => {
+      const chat: IChatMsg = {
+        text: msg,
+        isMyChat: true,
+        isNotice: false
+      }
+
+      this.addChat( chat );
+    } );
+
+    this.socket.on( 'other message', ( msg: string ) => {
+      const chat: IChatMsg = {
+        text: msg,
+        isMyChat: false,
+        isNotice: false
+      }
+
+      this.addChat( chat );
+    } );
+  }
+
+  addChat = ( chat: IChatMsg ) => {
+    const arr: Array<IChatMsg> = this.state.chatList;
+
+    arr.push( chat );
+
+    this.setState( {
+      chatList: arr
+    } );
+  }
+
+  onClickSend = () => {
+    const currentText: string = this.refForm.current.value;
+
+    this.socket.emit('chat message', currentText );
+
+    this.refForm.current.value = '';
   }
 
   renderChatItem = ( chatMsg: IChatMsg, index: number ) => {
+    var clsName: string;
+
+    if( chatMsg.isNotice ) {
+      clsName = 'liConnected';
+    } else {
+      clsName = chatMsg.isMyChat ? 'liMe' : 'liOthers';
+    }
+
     return (
-      <li key={ index }>
+      <li key={ index } className={ clsName }>
         { chatMsg.text }
       </li>
     );
@@ -69,10 +117,10 @@ class ChatRoom extends Component< any, IState > {
       <div>
         <InputGroup className="mb-3" id='igChat'>
           <FormControl
-            placeholder="Chat"
+            placeholder="Chat" ref={ this.refForm }
           />
           <InputGroup.Append>
-            <Button variant="outline-secondary">Button</Button>
+            <Button variant="outline-secondary" onClick={ this.onClickSend }>Send</Button>
           </InputGroup.Append>
         </InputGroup>
         <ul>
